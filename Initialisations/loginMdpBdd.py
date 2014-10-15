@@ -1,0 +1,2 @@
+loginBdd = 'login'
+mdpBdd = 'mdp'
