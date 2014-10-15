@@ -10,6 +10,10 @@ Created on 8 oct. 2014
 @author: kitsune, Fx
 '''
 
+'''Liste des arguments du programme'''
+global Attributs 
+Attributs = ['g','ar','sg','alb','t','r']
+
 '''Fonction qui permet de verifier si l'utilisateur a bien saisie un entier pour une quantite voulue'''
 def VerifInt (quantity):
 
@@ -36,9 +40,6 @@ def VerifInt (quantity):
             '''Fonction qui permet la verification de tout les quantites de chaque arguments saisies'''
 def Veriff ():
 
-    '''Liste des arguments du programme'''
-    Attributs=['g','ar','sg','alb','t','r']
-
     ''''Boucle pour parcourir la liste des arguments saisies par l'utilisateur'''
     for arg in Attributs:
 
@@ -56,13 +57,17 @@ def Veriff ():
                 '''On recupere le pourcentage d'un argument (ex: genre)'''
                 ArgumentEntier=Argument[1]
 
-                conversionMinutes(ArgumentEntier)
                 '''On incremente le curseur'''
                 i=i+1
 
                 try:
                     '''On va donner l'entier saisie a une fonction pour la verifier'''
                     argVerif=VerifInt(ArgumentEntier)
+                    
+                    '''On convertie en minute l'entier recupere'''
+                    argConvertion=conversionMinutes(argVerif)
+                    
+                    
                 except Exception:
                     logging.error("La fonction de verification d'un entier n'a pas fonctionner")
 
@@ -81,9 +86,9 @@ def Veriff ():
 
                 try:
                     '''On remplace la saisir de l'utilisateur par un entier'''
-                    setattr(argumentsParser,arg,argVerif)
+                    setattr(argumentsParser,arg,argConvertion)
                 except Exception:
-                    logging.error("Le remplacement de la valeur entier n'a pas pu se faire.")
+                    logging.error("Le remplacement de la valeur(pourcentage) en minutes n'a pas pu se faire.")
                     exit(4)
         else:
             logging.info("L'option "+arg+" n'est pas presente.")
