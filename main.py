@@ -1,3 +1,6 @@
 from controles.verificationsArguments import Veriff
+from controles.recuperationDonnees import recuperationDonnees
+from Initialisations.argument import argumentsParser
 
 Veriff()
+recuperationDonnees(argumentsParser)

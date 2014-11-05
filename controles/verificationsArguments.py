@@ -57,9 +57,6 @@ def Veriff ():
                 '''On recupere le pourcentage d'un argument (ex: genre)'''
                 ArgumentEntier=Argument[1]
 
-                '''On incremente le curseur'''
-                i=i+1
-
                 try:
                     '''On va donner l'entier saisie a une fonction pour la verifier'''
                     argVerif=VerifInt(ArgumentEntier)
@@ -86,10 +83,15 @@ def Veriff ():
 
                 try:
                     '''On remplace la saisir de l'utilisateur par un entier'''
-                    setattr(argumentsParser,arg,argConvertion)
+                    #setattr(argumentsParser,arg,argConvertion)
+                    ListeArg[i][1]=argConvertion
+                    
                 except Exception:
                     logging.error("Le remplacement de la valeur(pourcentage) en minutes n'a pas pu se faire.")
                     exit(4)
+                
+                '''On incremente le curseur'''
+                i=i+1
         else:
             logging.info("L'option "+arg+" n'est pas presente.")
             
