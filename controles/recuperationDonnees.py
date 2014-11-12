@@ -19,60 +19,41 @@ def recuperationDonnees(argumentsParser):
             listeFinale.append(morceauChoisi)
             quantiteEscomptee -= morceauChoisi.duree
             filtrerListe(listeFinale, listeAFiltrer, quantiteEscomptee)
+        else: 
+            return listeFinale
         
 
     
-    collectionListesFiltrees = dict(list(list()))
+    collectionListesFiltrees = list(list())
     for recherche in Attributs:
         if getattr(argumentsParser, recherche):
             for unArgument in getattr(argumentsParser, recherche):
                 if (recherche == 'g'):
                     # On crée la liste avec les resultats de la requete
                     playList = list(connexion.execute(sqlalchemy.select([mes_morceaux]).where(mes_morceaux.c.genre == unArgument[0])))
-                    filtrerListe(collectionListesFiltrees[recherche],
-                                 playList,
-                                 unArgument[1] * argumentsParser.duree_playlist / 100 * 60)
-                    # on passe en parametre la quantite à garder à l'interieur de la sous playlist
-                    collectionListesFiltrees[recherche].append(playList)
                 
-                '''
-    
-    for recherche in Attributs:
-        if getattr(argumentsParser, recherche) is not None:
-            print('reussi')
-            rechercheArgument = getattr(argumentsParser, recherche)
-            for unArgument in rechercheArgument:
-                print(unArgument)
-                try:
-                    selectionMorceaux = sqlalchemy.select([mes_morceaux]).where(mes_morceaux.c.titre == unArgument[0])
-                    try: 
-                        selectionMorceaux = sqlalchemy.select([mes_morceaux]).where(mes_morceaux.c.artiste == unArgument[0])
-                        try:
-                            selectionMorceaux = sqlalchemy.select([mes_morceaux]).where(mes_morceaux.c.duree == unArgument[0])
-                            try:
-                                selectionMorceaux = sqlalchemy.select([mes_morceaux]).where(mes_morceaux.c.chemin == unArgument[0])
-                            except Exception:
-                                logging.info('Pas de chemin trouvé')
-                        except Exception:
-                            logging.info('Pas de durée trouvé')
-                    except Exception:
-                        logging.info('Pas d\'artiste trouvé')
-                except Exception:
-                    logging.info('Pas de titre trouvé')
+                if (recherche == 'ar'):
+                    # On crée la liste avec les resultats de la requete
+                    playList = list(connexion.execute(sqlalchemy.select([mes_morceaux]).where(mes_morceaux.c.artiste == unArgument[0])))
                     
-                resultat = connexion.execute(selectionMorceaux)
+                if (recherche == 'alb'):
+                    # On crée la liste avec les resultats de la requete
+                    playList = list(connexion.execute(sqlalchemy.select([mes_morceaux]).where(mes_morceaux.c.album == unArgument[0])))
+                    
+                if (recherche == 't'):
+                    # On crée la liste avec les resultats de la requete
+                    playList = list(connexion.execute(sqlalchemy.select([mes_morceaux]).where(mes_morceaux.c.titre == unArgument[0])))
+                    
+                if (recherche == 'sg'):
+                    # On crée la liste avec les resultats de la requete
+                    playList = list(connexion.execute(sqlalchemy.select([mes_morceaux]).where(mes_morceaux.c.sousgenre == unArgument[0])))
+                                     
+                final = filtrerListe(collectionListesFiltrees,
+                            playList,
+                            unArgument[1] * argumentsParser.duree_playlist / 100 * 60)
+                # on passe en parametre la quantite à garder à l'interieur de la sous playlist
+                collectionListesFiltrees.append(final)    
                 
-            # On crée la liste avec les resultats de la requete
-                playList = list(resultat)
-                
-                # On les tri aléatoirement
-                random.shuffle(playList)
-                
-                for i in playList:
-                    print(i)'''
-            
-            
-            
-        else:
-            print('Erreur')
+    
+    print(collectionListesFiltrees)     
                         
