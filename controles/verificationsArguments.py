@@ -3,6 +3,11 @@ import logging
 import Initialisations.loggingConf
 from Initialisations.argument import argumentsParser
 import Initialisations.argument
+from controles.recuperationDonnees import verificationChoisi
+
+
+'''Liste des arguments du programme'''
+Attributs=['g','ar','sg','alb','t','r']
 
 '''
 Created on 8 oct. 2014
@@ -79,6 +84,17 @@ def Veriff ():
                 except Exception:
                     logging.error("La fonction de verification d'un entier n'a pas fonctionner")
 
+                try:
+                    '''On verifie que le choisie saisie existe dans la base de donnée'''
+                    trouveBase=verificationChoisi(Argument[0], arg)
+
+                    if (trouveBase == False):
+                        print("Votre demande "+ Argument[0]+ " pour l'argument "+arg+" n'a pas dans la base.")
+                        exit(3)
+
+                except Exception:
+                    logging.error("La verification de la saisie dans la base de donnée n'a pas pu se faire.")
+
         else:
             logging.info("L'option "+arg+" n'est pas presente.")
 
@@ -109,8 +125,6 @@ def Veriff ():
 
                         '''On remplace la saisir de l'utilisateur par un entier'''
                         ListeArg[i][1]=tempsArg
-
-                        print(ListeArg[i][1])
 
                     except Exception:
                         logging.error("Le remplacement de la valeur entier n'a pas pu se faire.")
