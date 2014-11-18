@@ -11,13 +11,11 @@ Created on 15 oct. 2014
 @author: fx
 '''
 
-'''Liste des arguments du programme
-Attributs=['g','ar','sg','alb','t','r']'''
-
 '''Liste des arguments du programme'''
 Attributs=[('g', "genre"),('ar', "artiste"),('sg', "sousgenre"),('alb', "album"),('t', "titre")]
 
 def rechercheBase(Attributs, valeurRechercher, arg):
+
     '''Initialisation d'un compteur pour parcourir la liste des arguments'''
     i=0
     trouve = False
@@ -29,7 +27,7 @@ def rechercheBase(Attributs, valeurRechercher, arg):
             playList=list(connexion.execute(sqlalchemy.select([mes_morceaux]).where(getattr(mes_morceaux.c, nameColumn) == valeurRechercher)))
             trouve = True
 
-    i+=1
+        i+=1
     return playList
 
 def verificationChoisi(selection, arg):
@@ -48,8 +46,6 @@ def recuperationDonnees(argumentsParser):
 
         '''Si la quantite demander est superieur a 0'''
         if quantiteEscomptee > 0:
-            '''On trie l'ensemble aleatoire'''
-            random.shuffle(listeAFiltrer)
             '''On range le dernier morceaux de la playlist dans la liste final et on la supprime de l'ensemble'''
             morceauChoisi = listeAFiltrer[0]
 
@@ -79,7 +75,6 @@ def recuperationDonnees(argumentsParser):
             '''On parcourt l'ensemble d'un attribut'''
             for unArgument in getattr(argumentsParser, Attributs[i][0]):
                 playList = rechercheBase(Attributs, unArgument[0], Attributs[i][0])
-                print(playList)
                 '''On applique la fonction de selection morceaux'''
                 final=filtrerListe(collectionListesFiltrees, playList, unArgument[1] * argumentsParser.duree_playlist / 100 * 60)
 

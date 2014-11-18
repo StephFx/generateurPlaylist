@@ -35,7 +35,7 @@ parser.add_argument("--t", action='append', help="titre voulue", nargs=2)
 #parser.add_argument("--marge", help="marge supplementaire a ajoute a la duree", type=int)
 
 '''--sg permettera de specifie un sous genre'''
-parser.add_argument("--sg", action='append', help="sous genre possible")
+parser.add_argument("--sg", action='append', help="sous genre possible", nargs=2)
 
 '''--r permettera de rentre une recherche'''
 parser.add_argument("--r", help="recherche selon une expression")
