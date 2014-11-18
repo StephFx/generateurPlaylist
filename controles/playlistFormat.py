@@ -13,7 +13,6 @@ def writeM3U(argumentsParser, playlist):
     playlistFile = open(playlistFileName, 'w')
     '''On parcours l'ensemble de la liste de l'ensemble des morceaux trouves'''
     for musique in playlist:
-            print(musique[8])
             '''On ecrit le chemin de la musique trouver'''
             playlistFile.write(musique[8] + "\n")
 
