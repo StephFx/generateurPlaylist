@@ -26,16 +26,16 @@ def VerifInt (quantity):
                 logging.info("L'entier saisie est bien positif.")
                 return goodQte
             elif goodQte==0:
-                logging.error("0 a ete saisie.")
+                logging.error("0 a ete saisie, le programme attend un nombre non nul.")
                 print('Veuillez saisir un nombre non nul.')
                 exit(2)
             else:
                     '''On convertie le negatif en positif'''
                     goodQte=abs(goodQte)
-                    logging.info("L'entier saisie est negatif saisie a ete transformer en entier positif.")
+                    logging.info("L'entier saisie est negatif, la saisie a ete transformer en entier positif.")
                     return goodQte
         except ValueError:
-            logging.error("Erreur de conversion,la saisie est une chaine.")
+            logging.error("Erreur de conversion, la saisie est une chaine.")
             print("Il y a une erreur, veuillez saisir un entier naturel.")
             exit(1)
 
@@ -89,7 +89,7 @@ def Veriff ():
                     trouveBase=verificationChoisi(Argument[0], arg)
 
                     if (trouveBase == False):
-                        print("Votre demande "+ Argument[0]+ " pour l'argument "+arg+" n'a pas dans la base.")
+                        print("Votre demande "+ Argument[0]+ " pour l'argument "+arg+" n'est pas dans la base.")
                         exit(3)
 
                 except Exception:
