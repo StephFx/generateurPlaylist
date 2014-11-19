@@ -10,10 +10,10 @@ import random
 Attributs=['g','ar','sg','alb','t']
 
 '''On execute la requete qui va lancer le controle des saisies (argument et entier) de l'utilisateur'''
-Veriff(Attributs)
+recupArg=Veriff(Attributs)
 
 '''On recupere la playlist des morceaux trier selon les arguments demander par l'utilisateur'''
-playlist=recuperationDonnees(argumentsParser)
+playlist=recuperationDonnees(argumentsParser,recupArg)
 random.shuffle(playlist)
 
 if (argumentsParser.type_playlist =='m3u'):
