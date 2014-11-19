@@ -13,6 +13,7 @@ Created on 15 oct. 2014
 
 '''Liste des arguments du programme'''
 Attributs=[('g', "genre"),('ar', "artiste"),('sg', "sousgenre"),('alb', "album"),('t', "titre")]
+    
 
 def rechercheBase(Attributs, valeurRechercher, arg):
 
@@ -21,12 +22,15 @@ def rechercheBase(Attributs, valeurRechercher, arg):
     trouve = False
     '''Recherche dans la liste des arguments'''
     while (i<len(Attributs) and trouve == False):
-
+        '''Si l'argument est semblable a ce qu'il y a dans le tableau Attribut'''
         if Attributs[i][0] == arg:
+            '''On stock dans une variable la seconde valeur de notre liste'''
             nameColumn=Attributs[i][1]
+            '''On effectue notre requete de select avec la colonne recupéré dans notre tableau (nameColumn'''
             playList=list(connexion.execute(sqlalchemy.select([mes_morceaux]).where(getattr(mes_morceaux.c, nameColumn) == valeurRechercher)))
+            '''Quand on a trouvé un argument on initialise trouve a True'''
             trouve = True
-
+        '''On incremente de 1 le compteur pour savoir quand on arréte de boucler'''
         i+=1
     return playList
 
@@ -39,7 +43,7 @@ def verificationChoisi(selection, arg):
         return False
 
 '''Module qui permet de recuperer une liste de morceaux selon les arguments de la commande'''
-def recuperationDonnees(argumentsParser):
+def recuperationDonnees(argumentsParser,existe):        
 
     '''Permet de choisir dans la liste de morceaux ceux qui va correspondre à la durée demande'''
     def filtrerListe(listeFinale, listeAFiltrer, quantiteEscomptee):
@@ -66,8 +70,8 @@ def recuperationDonnees(argumentsParser):
     collectionListesFiltrees = list()
 
     '''Initialisation d'un compteur'''
-    i=0
-
+    i=0  
+    
     while (i<len(Attributs)):
 
         '''On regarde s'il est rentree dans la commande'''
@@ -76,11 +80,20 @@ def recuperationDonnees(argumentsParser):
             for unArgument in getattr(argumentsParser, Attributs[i][0]):
                 playList = rechercheBase(Attributs, unArgument[0], Attributs[i][0])
                 '''On applique la fonction de selection morceaux'''
-                final=filtrerListe(collectionListesFiltrees, playList, unArgument[1] * argumentsParser.duree_playlist / 100 * 60)
-
+                final=filtrerListe(collectionListesFiltrees, playList, unArgument[1] * argumentsParser.duree_playlist /100 * 60)
                 if (final is not None):
                     '''on passe en parametre la quantite à garder à l'interieur de la sous playlist'''
                     collectionListesFiltrees.append(final)
         i+=1
-
+    
+    '''S'il n'y a pas d'arguments optionnels'''
+    if existe == False:
+        '''on recupere l'ensemble des morceau de la base de donnees'''
+        playList = list(connexion.execute(sqlalchemy.select([mes_morceaux])))
+        '''On applique la fonction de selection morceaux'''
+        final=filtrerListe(collectionListesFiltrees, playList, argumentsParser.duree_playlist * 60)
+        if (final is not None):
+                    '''on passe en parametre la quantite à garder à l'interieur de la sous playlist'''
+                    collectionListesFiltrees.append(final)
+                                          
     return collectionListesFiltrees

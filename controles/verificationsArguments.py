@@ -47,7 +47,9 @@ def Veriff ():
 
     '''On initialise le pourcentage total de la playlist'''
     pourcentage=0
-    compteurArg=0
+    
+    '''On initialise une variable intialiser a false mais qui passe a true si on trouve au moin un argument optionnel dans la ligne de commande '''
+    trouveArg=False
 
     ''''Boucle pour parcourir la liste des arguments saisies par l'utilisateur'''
     for arg in Attributs:
@@ -55,15 +57,16 @@ def Veriff ():
         i=0
 
         if getattr(argumentsParser, arg) is not None:
+            
+            '''On a trouve au moin un argument dans la ligne de commande'''
+            trouveArg=True
+            
             ListeArg=getattr(argumentsParser, arg)
             logging.info("L'option "+arg+" est bien present.")
 
             '''Tant qu'il y a plusieurs argument de la meme option'''
             while i<len(ListeArg):
                 Argument=ListeArg[i]
-
-                '''On incremente lorsqu'on trouve un argument'''
-                compteurArg+=1
 
                 '''On recupere le pourcentage d'un argument (ex: genre)'''
                 ArgumentEntier=Argument[1]
@@ -97,40 +100,44 @@ def Veriff ():
 
         else:
             logging.info("L'option "+arg+" n'est pas presente.")
+            
+    '''On regarde si on a trouver au moin un argument optionnel dans la ligne de commande pour continuer la verification'''
+    if trouveArg==True:
 
-    '''On donne le total des pourcentages a un fonction'''
-    valeurPourcentage=round(pourcentages(pourcentage),2)
-
-    '''On regarde si on doit faire une mise à l'echelle ou non'''
-    if valeurPourcentage!=0:
-        for args in Attributs:
-
-            if getattr(argumentsParser, args) is not None:
-                ListeArg=getattr(argumentsParser, args)
-
-                '''On initialise un compteur d'argument par option'''
-                i=0
-                '''Tant qu'il y a plusieurs argument de la meme option'''
-                while i<len(ListeArg):
-                    Argument=ListeArg[i]
-                    ArgumentEntier=Argument[1]
-
-                    '''Si la valeur est differente de 0 on fais une mise à l'echelle'''
-                    argPourcent=round(ArgumentEntier*round(valeurPourcentage,2))
-
-                    try:
-
-                        ''''Maintenant on convertie la saisie correcte est remis e l'echelle'''
-                        tempsArg=conversionMinutes(int(argPourcent))
-
-                        '''On remplace la saisir de l'utilisateur par un entier'''
-                        ListeArg[i][1]=tempsArg
-
-                    except Exception:
-                        logging.error("Le remplacement de la valeur entier n'a pas pu se faire.")
-                        exit(4)
-                    '''On incremente le i'''
-                    i=i+1
+        '''On donne le total des pourcentages a un fonction'''
+        valeurPourcentage=round(pourcentages(pourcentage),2)
+    
+        '''On regarde si on doit faire une mise à l'echelle ou non'''
+        if valeurPourcentage!=0:
+            for args in Attributs:
+    
+                if getattr(argumentsParser, args) is not None:
+                    ListeArg=getattr(argumentsParser, args)
+    
+                    '''On initialise un compteur d'argument par option'''
+                    i=0
+                    '''Tant qu'il y a plusieurs argument de la meme option'''
+                    while i<len(ListeArg):
+                        Argument=ListeArg[i]
+                        ArgumentEntier=Argument[1]
+    
+                        '''Si la valeur est differente de 0 on fais une mise à l'echelle'''
+                        argPourcent=round(ArgumentEntier*round(valeurPourcentage,2))
+    
+                        try:
+    
+                            ''''Maintenant on convertie la saisie correcte est remis e l'echelle'''
+                            tempsArg=conversionMinutes(int(argPourcent))
+    
+                            '''On remplace la saisir de l'utilisateur par un entier'''
+                            ListeArg[i][1]=tempsArg
+    
+                        except Exception:
+                            logging.error("Le remplacement de la valeur entier n'a pas pu se faire.")
+                            exit(4)
+                        '''On incremente le i'''
+                        i=i+1
+    return trouveArg
 
 def pourcentages (pourcentage):
 

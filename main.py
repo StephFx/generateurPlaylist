@@ -8,10 +8,10 @@ import random
 import logging
 
 '''On execute la requete qui va lancer le controle des saisies (argument et entier) de l'utilisateur'''
-Veriff()
+recupArg=Veriff()
 
 '''On recupere la playlist des morceaux trier selon les arguments demander par l'utilisateur'''
-playlist=recuperationDonnees(argumentsParser)
+playlist=recuperationDonnees(argumentsParser, recupArg)
 random.shuffle(playlist)
 
 if (argumentsParser.type_playlist =='m3u'):
