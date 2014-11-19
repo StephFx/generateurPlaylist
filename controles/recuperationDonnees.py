@@ -30,16 +30,22 @@ def rechercheBase(Attributs, valeurRechercher, arg):
         i+=1
     return playList
 
+'''Fonction qui permet de recherche dans la base de données si la valeur voulu d'un argumetn existe '''
 def verificationChoisi(selection, arg):
 
+    '''On recherche dans la base'''
     select = rechercheBase(Attributs, selection, arg)
+
+    '''Si le resultat n'est pas vide'''
     if select != []:
+        '''On retourne true car il existe'''
         return True
     else :
+        '''On retourne false car il n'existe pas'''
         return False
 
 '''Module qui permet de recuperer une liste de morceaux selon les arguments de la commande'''
-def recuperationDonnees(argumentsParser):
+def recuperationDonnees(argumentsParser, existe):
 
     '''Permet de choisir dans la liste de morceaux ceux qui va correspondre à la durée demande'''
     def filtrerListe(listeFinale, listeAFiltrer, quantiteEscomptee):
@@ -82,5 +88,16 @@ def recuperationDonnees(argumentsParser):
                     '''on passe en parametre la quantite à garder à l'interieur de la sous playlist'''
                     collectionListesFiltrees.append(final)
         i+=1
+
+    '''S'il n'y a pas d'arguments optionnels'''
+    if existe == False:
+        '''on recupere l'ensemble des morceau de la base de donnees'''
+        playList = list(connexion.execute(sqlalchemy.select([mes_morceaux])))
+        '''On applique la fonction de selection morceaux'''
+        final=filtrerListe(collectionListesFiltrees, playList, argumentsParser.duree_playlist * 60)
+
+        if (final is not None):
+            '''on passe en parametre la quantite à garder à l'interieur de la sous playlist'''
+            collectionListesFiltrees.append(final)
 
     return collectionListesFiltrees
