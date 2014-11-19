@@ -55,6 +55,7 @@ def Veriff (Attributs):
 
     '''On initialise le pourcentage total de la playlist'''
     pourcentage=0
+    compteurArg=0
 
     '''On initialise une variable intialiser a false mais qui passe a true si on trouve au moin un argument optionnel dans la ligne de commande '''
     trouveArg=False
@@ -79,6 +80,9 @@ def Veriff (Attributs):
             while i<len(ListeArg):
                 '''On range dans une variable le premier tuple de l'argument'''
                 Argument=ListeArg[i]
+
+                '''On incremente lorsqu'on trouve un argument'''
+                compteurArg+=1
 
                 '''On recupere le pourcentage du tuple (ex:Pour g : (Rock, 34) on recupere 34'''
                 ArgumentEntier=Argument[1]
