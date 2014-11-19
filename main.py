@@ -6,8 +6,11 @@ import controles.playlistFormat
 from controles.playlistFormat import writeM3U, writeXSPF
 import random
 
+'''Liste des arguments du programme'''
+Attributs=['g','ar','sg','alb','t']
+
 '''On execute la requete qui va lancer le controle des saisies (argument et entier) de l'utilisateur'''
-Veriff()
+Veriff(Attributs)
 
 '''On recupere la playlist des morceaux trier selon les arguments demander par l'utilisateur'''
 playlist=recuperationDonnees(argumentsParser)
