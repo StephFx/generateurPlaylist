@@ -24,8 +24,13 @@ def rechercheBase(Attributs, valeurRechercher, arg):
 
         if Attributs[i][0] == arg:
             nameColumn=Attributs[i][1]
-            playList=list(connexion.execute(sqlalchemy.select([mes_morceaux]).where(getattr(mes_morceaux.c, nameColumn) == valeurRechercher)))
-            trouve = True
+
+            '''On essais de se connecter a la base et de recupere des donnees'''
+            try :
+                playList=list(connexion.execute(sqlalchemy.select([mes_morceaux]).where(getattr(mes_morceaux.c, nameColumn) == valeurRechercher)))
+                trouve = True
+            except Exception:
+                logging.error("Le programme n'a pas pu acceder à la base de donnees")
 
         i+=1
     return playList
@@ -91,10 +96,13 @@ def recuperationDonnees(argumentsParser, existe):
 
     '''S'il n'y a pas d'arguments optionnels'''
     if existe == False:
-        '''on recupere l'ensemble des morceau de la base de donnees'''
-        playList = list(connexion.execute(sqlalchemy.select([mes_morceaux])))
-        '''On applique la fonction de selection morceaux'''
-        final=filtrerListe(collectionListesFiltrees, playList, argumentsParser.duree_playlist * 60)
+        try:
+            '''on recupere l'ensemble des morceau de la base de donnees'''
+            playList = list(connexion.execute(sqlalchemy.select([mes_morceaux])))
+            '''On applique la fonction de selection morceaux'''
+            final=filtrerListe(collectionListesFiltrees, playList, argumentsParser.duree_playlist * 60)
+        except Exception:
+            logging.error("Le programme n'a pas pu recuperer une liste de morceaux")
 
         if (final is not None):
             '''on passe en parametre la quantite à garder à l'interieur de la sous playlist'''
